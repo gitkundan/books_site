@@ -1,0 +1,9 @@
+# Handle all text files by normalizing to LF in the repository
+* text=auto eol=lf
+
+# Explicitly ensure certain scripts always use LF (important for Linux/macOS compatibility)
+*.sh text eol=lf
+
+# Optional: Ensure Windows-specific files use CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
