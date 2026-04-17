@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Detail</title>
+  <link rel="stylesheet" href="bootstrap.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+  <!-- Header -->
+  <nav class="navbar navbar-dark bg-dark px-4">
+    <a class="navbar-brand fw-bold fs-5 text-white text-decoration-none" href="index.html">Books to Read</a>
+  </nav>
+
+  <!-- Main -->
+  <div class="container py-4">
+    <a href="index.html" class="text-muted text-decoration-none mb-4 d-inline-block">
+      &larr; Back to catalogue
+    </a>
+    <div id="detail"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center text-muted py-3 border-top mt-4">
+    <small>&copy; 2026 Books to Read. All rights reserved.</small>
+  </footer>
+
+  <script src="books-data.js"></script>
+  <script>
+    // ── Set to true to show gold debug borders on all blocks ──
+    const DEBUG = false;
+    if (DEBUG) document.body.classList.add('debug');
+
+    function renderDetail() {
+      const params = new URLSearchParams(location.search);
+      const id = Number(params.get('id'));
+      const book = BOOKS.find(b => b.id === id);
+      const container = document.getElementById('detail');
+
+      if (!book) {
+        container.innerHTML = `
+          <div class="alert alert-warning">
+            Book not found. <a href="index.html">Return to catalogue</a>.
+          </div>
+        `;
+        return;
+      }
+
+      document.title = book.title;
+
+      container.innerHTML = `
+        <div class="detail-layout">
+          <img src="${book.cover}" alt="${book.title}" class="detail-cover">
+          <div class="flex-grow-1">
+            <h2 class="fw-bold mb-1">${book.title}</h2>
+            <p class="text-muted mb-3">by ${book.author}</p>
+            <div class="mb-3">
+              <span class="book-price fs-5">£${book.price.toFixed(2)}</span>
+            </div>
+            <div class="mb-3 d-flex gap-2 align-items-center flex-wrap">
+              <span class="badge bg-primary">${book.genre}</span>
+              ${book.inStock
+                ? '<span class="badge bg-success">In Stock</span>'
+                : '<span class="badge bg-secondary">Out of Stock</span>'}
+            </div>
+            <p class="text-secondary">${book.description}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    document.addEventListener('DOMContentLoaded', renderDetail);
+  </script>
+</body>
+</html>
